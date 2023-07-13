@@ -52,7 +52,7 @@ class Search extends React.Component{
       }
     )
     .catch(function(error){
-          <h5> Error!!!</h5>
+          <h5> Incorrect Entry!!!</h5>
         
     });
   }
@@ -245,7 +245,7 @@ class Search extends React.Component{
         } else {
           suggestionsListComponent = (
             <div class="no-suggestions">
-              <em>No suggestions available.</em>
+              <em>There are no suggestions for the search term</em>
             </div>
           );
         }
@@ -253,7 +253,7 @@ class Search extends React.Component{
     return (
       <div className="App">
         <div className="cryptoHead">
-            <h1> "SearchLite!!" </h1>
+            <h1> Ciberminer </h1>
         </div>
         <div className="cryptoHeader">
         <input
@@ -264,7 +264,7 @@ class Search extends React.Component{
             onKeyDown={onKeyDown}
             value={query}
           />
-          <button type="button" class="btn btn-secondary" onClick = {this.handleClick}>
+          <button type="button" class="btn btn-secondary ml-2" onClick = {this.handleClick}>
               Search
           </button>
         </div>

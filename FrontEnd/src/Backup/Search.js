@@ -150,7 +150,7 @@ class Search extends React.Component{
     return (
       <div className="App">
         <div className="cryptoHead">
-            <h1> "SearchLite!!" </h1>
+            <h1>Ciberminer</h1>
         </div>
         <div className="cryptoHeader">
         <input
