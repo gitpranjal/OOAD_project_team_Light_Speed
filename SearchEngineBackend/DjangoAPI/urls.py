@@ -18,9 +18,9 @@ from django.urls import path
 
 #Add this for the project
 
-from django.conf.urls import url,include
+from django.urls import include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^', include('RestApp.urls'))
+    re_path(r'^', include('RestApp.urls'))
 ]

@@ -2,9 +2,7 @@ import React from "react";
 import "../App.css";
 
 function Coin({Posts,loading,final_loading,value}){
-  console.log("In Coin Class");
-  console.log(Posts.length);
-  console.log("After Coin Class");
+  
   return(
     
     
