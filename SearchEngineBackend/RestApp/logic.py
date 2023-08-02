@@ -1,115 +1,71 @@
 from collections import OrderedDict
-
 import pickle
 
-#from requests import request
-
-"""
-function caseSensitiveMatching(query, caseSensitive){
-
-    const matches = [];
-    const lookForMe = query;
-    if (caseSensitive == true){
-        // loop over rows of the data structure, indexing for desc// need to figure out how to loop over to uncomment
-        // if (exactMatch(rowDescription, lookForMe)){ // need to initialize rowDescprition to uncomment
-            // matches.append(rowIndex) // need to figure out how to access rowIndex to uncomment
-        // }
-    } else{
-        // loop over rows of data structure indexing for desc // need to figure out how to loop over to uncomment
-        // if (exactMatch(rowDescription.toLowerCase(), lookForMe.toLowerCase()))){
-            // matches.append(rowIndex)
-        // }
-    }
-    return matches
-}
-
-function exactMatch(rowDesc, lookForMe){
-    return rowDesc.includes(lookForMe));
-}
-
-"""
 class searchLogic:
 
-    def __init__(self, data, query, case, anda, ora, nota):
+    def __init__(self, data, query, case_sensitive, and_check, or_check, not_check):
         self.data = data.data
         self.query = query
-        if case == "True":
-            self.case = True
-        else:
-            self.case = False
+        self.case_sensitive = case_sensitive
+        self.and_check = and_check
+        self.or_check = or_check
+        self.not_check = not_check
         
-        if anda == "True":
-            self.anda = True
-        else:
-            self.anda = False
-        
-        if ora == "True":
-            self.ora = True
-        else:
-            self.ora = False
-        
-        if nota == "True":
-            self.nota = True
-        else:
-            self.nota = False
-        
-        matches = self.logic(self.query, self.data, self.anda, self.ora, self.nota, caseSensitive=self.case)
+        matches = self.execute_logic(self.query, self.data, self.and_check, self.or_check, self.not_check, case_sensitive=self.case_sensitive)
         self.matches = matches
 
-    def logic(self, query, searchResults, anda, ora, nota, caseSensitive = False):
+    def execute_logic(self, query, search_results, and_check, or_check, not_check, case_sensitive=False):
         matches = []
-        for i in searchResults:
+        for i in search_results:
             desc = i["Description"]
-            if not caseSensitive:
+            if not case_sensitive:
                 desc = desc.lower()
                 query = query.lower()
 
-            if anda == True:
-                if self.andLogic(query, desc):
+            if and_check:
+                if self.and_logic(query, desc):
                     matches.append(i)
-            elif nota == True:
-                if self.notLogic(query, desc):
+            elif not_check:
+                if self.not_logic(query, desc):
                     matches.append(i)
-            elif ora == True:
-                if self.orLogic(query, desc):
+            elif or_check:
+                if self.or_logic(query, desc):
                     matches.append(i)
             else:
                 if query in desc:
                     matches.append(i)
                 
-        return sorted(matches,key=lambda k: k['Rank'],reverse=True)
+        return sorted(matches, key=lambda k: k['Rank'], reverse=True)
 
-
-    
-    def caseSensitiveTrue(self, query, desc):
+    def case_sensitive_true(self, query, desc):
         if query in desc:
             return True
         else:
             return False
-    
-    def caseSensitiveFalse(self, query, desc):
+
+    def case_sensitive_false(self, query, desc):
         if query.lower() in desc.lower():
             return True
         else:
             return False
-    
-    def orLogic(self, query, desc):
+
+    def or_logic(self, query, desc):
         for i in query.split():
             if i in desc.split():
                 return True
         return False
-    
-    def andLogic(self, query, desc):
-        allTrue = []
+
+    def and_logic(self, query, desc):
+        all_true = []
         for i in query.split():
             if i in desc.split():
-                allTrue.append(True)
-        if len(allTrue) == len(query.split()):
+                all_true.append(True)
+        if len(all_true) == len(query.split()):
             return True
         else:
             return False
-    
-    def notLogic(self, query, desc):
+
+    def not_logic(self, query, desc):
         for i in query.split():
             if i in desc.split():
                 return False
